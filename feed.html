@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feed - Art In Tech</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="navbar">
+  <h1>Art In Tech 🎨</h1>
+  <div class="nav-buttons">
+    <button onclick="window.location.href='perfil.html'">👤 Perfil</button>
+    <button onclick="logout()">Sair</button>
+  </div>
+</div>
+
+<div class="feed-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-profile-card">
+      <img src="https://i.pravatar.cc/150?img=12" alt="Avatar">
+      <h3 id="username"></h3>
+      <p>Artista Digital</p>
+    </div>
+  </aside>
+
+  <main class="feed">
+
+    <div class="create-post">
+      <textarea id="descricao" placeholder="Compartilhe sua arte..."></textarea>
+      <button onclick="criarPost()">Publicar</button>
+    </div>
+
+    <div id="posts"></div>
+
+  </main>
+
+</div>
+
+<script>
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user) {
+    window.location.href = "login.html";
+  }
+
+  document.getElementById("username").innerText = user.nome;
+
+  async function carregarPosts() {
+    const res = await fetch("http://localhost:3000/posts");
+    const posts = await res.json();
+
+    document.getElementById("posts").innerHTML = posts.map(post => `
+      <div class="post">
+
+        <div class="post-header">
+          <img src="https://i.pravatar.cc/150?u=${post.usuario_id}" alt="Avatar">
+          <div>
+            <h3>${post.nome}</h3>
+            <small>@${post.nome.toLowerCase().replace(/ /g, "")}</small>
+          </div>
+        </div>
+
+        <img class="post-image"
+          src="${post.imagem || 'https://picsum.photos/700/500?random=' + post.id}"
+          alt="Imagem do post">
+
+        <div class="post-content">
+          <p>${post.descricao}</p>
+          <div class="actions">
+            <button onclick="curtir(${post.id})">❤️ Curtir</button>
+            <button>💬 Comentários</button>
+            <button>📤 Compartilhar</button>
+          </div>
+        </div>
+
+      </div>
+    `).join("");
+  }
+
+  async function criarPost() {
+    const descricao = document.getElementById("descricao").value;
+
+    if (!descricao.trim()) {
+      alert("Escreva algo antes de publicar.");
+      return;
+    }
+
+    await fetch("http://localhost:3000/posts", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario_id: user.id, descricao })
+    });
+
+    document.getElementById("descricao").value = "";
+    carregarPosts();
+  }
+
+  async function curtir(id) {
+    await fetch(`http://localhost:3000/curtir/${id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ usuario_id: user.id })
+    });
+
+    alert("Post curtido ❤️");
+  }
+
+  function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+  }
+
+  carregarPosts();
+</script>
+
+</body>
+</html>

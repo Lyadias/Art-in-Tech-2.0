@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Acessibilidade - Art In Tech</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+<nav class="navbar" role="navigation" aria-label="Navegação principal">
+  <h1>Art In Tech 🎨</h1>
+  <div class="nav-buttons">
+    <button onclick="history.back()" aria-label="Voltar para a página anterior">← Voltar</button>
+  </div>
+</nav>
+
+<main id="main-content">
+  <div class="page-content">
+
+    <h2>♿ Acessibilidade</h2>
+    <p class="subtitle">Personalize sua experiência para navegar com mais conforto.</p>
+
+    <div class="access-grid">
+
+      <!-- FONTE -->
+      <div class="access-card" role="group" aria-labelledby="font-title">
+        <h4 id="font-title"><span aria-hidden="true">🔡</span> Tamanho da fonte</h4>
+        <div class="range-row">
+          <label for="font-size-range">
+            Tamanho
+            <span id="font-label" aria-live="polite">100%</span>
+          </label>
+          <input
+            type="range"
+            id="font-size-range"
+            min="80" max="140" step="10" value="100"
+            aria-label="Ajustar tamanho da fonte"
+            oninput="ajustarFonte(this.value)"
+          >
+        </div>
+      </div>
+
+      <!-- CONTRASTE -->
+      <div class="access-card" role="group" aria-labelledby="contrast-title">
+        <h4 id="contrast-title"><span aria-hidden="true">🎨</span> Contraste</h4>
+        <div class="theme-options" role="radiogroup" aria-label="Escolher tema de contraste">
+          <button class="theme-btn active" onclick="setContrast('normal', this)" aria-pressed="true">Normal</button>
+          <button class="theme-btn" onclick="setContrast('high', this)" aria-pressed="false">Alto contraste</button>
+          <button class="theme-btn" onclick="setContrast('dim', this)" aria-pressed="false">Suavizado</button>
+        </div>
+      </div>
+
+      <!-- MOVIMENTO -->
+      <div class="access-card" role="group" aria-labelledby="motion-title">
+        <h4 id="motion-title"><span aria-hidden="true">✨</span> Animações</h4>
+        <div class="toggle-row">
+          <label for="toggle-motion">Reduzir movimento</label>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-motion" onchange="toggleMotion(this)" aria-label="Reduzir animações e movimentos">
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- TECLADO -->
+      <div class="access-card" role="group" aria-labelledby="keyboard-title">
+        <h4 id="keyboard-title"><span aria-hidden="true">⌨️</span> Teclado</h4>
+        <div class="toggle-row">
+          <label for="toggle-focus">Destacar foco visível</label>
+          <label class="toggle">
+            <input type="checkbox" id="toggle-focus" onchange="toggleFocus(this)" aria-label="Destacar indicador de foco para navegação por teclado">
+            <span class="slider" aria-hidden="true"></span>
+          </label>
+        </div>
+        <p style="color:#a1a1aa;font-size:13px;margin-top:8px;">Use <kbd style="background:#0f0f1a;padding:2px 7px;border-radius:6px;border:1px solid rgba(124,58,237,.3);">Tab</kbd> para navegar entre os elementos.</p>
+      </div>
+
+      <!-- LEITOR DE TELA -->
+      <div class="access-card" role="group" aria-labelledby="reader-title">
+        <h4 id="reader-title"><span aria-hidden="true">🔊</span> Leitor de tela</h4>
+        <p style="color:#a1a1aa;font-size:14px;line-height:1.6;">Este site é compatível com leitores de tela como NVDA, JAWS e VoiceOver. Todos os elementos interativos possuem rótulos acessíveis (ARIA).</p>
+      </div>
+
+      <!-- SALVAR -->
+      <div class="access-card" style="display:flex;flex-direction:column;justify-content:space-between;gap:16px;">
+        <div>
+          <h4><span aria-hidden="true">💾</span> Salvar preferências</h4>
+          <p style="color:#a1a1aa;font-size:14px;line-height:1.6;">Suas configurações ficam salvas neste navegador e são aplicadas automaticamente.</p>
+        </div>
+        <button
+          onclick="salvarPreferencias()"
+          style="background:linear-gradient(to right,#7c3aed,#4f46e5);border:none;padding:12px;border-radius:12px;color:white;font-family:'Sora',sans-serif;font-weight:700;font-size:14px;cursor:pointer;"
+          aria-label="Salvar todas as preferências de acessibilidade"
+        >
+          Salvar preferências
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+</main>
+
+<footer class="home-footer" role="contentinfo">
+  <p>© 2025 Art In Tech · <a href="index.html">Home</a> · <a href="suporte.html">Suporte</a></p>
+</footer>
+
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+  // Carregar preferências salvas
+  const prefs = JSON.parse(localStorage.getItem("a11y") || "{}");
+  if (prefs.fontSize) aplicarFonte(prefs.fontSize);
+  if (prefs.contrast === "high") document.body.classList.add("high-contrast");
+  if (prefs.reduceMotion) document.body.classList.add("reduce-motion");
+  if (prefs.focusVisible) document.body.classList.add("focus-visible-on");
+
+  function ajustarFonte(val) {
+    document.getElementById("font-label").textContent = val + "%";
+    aplicarFonte(val);
+  }
+
+  function aplicarFonte(val) {
+    document.documentElement.style.fontSize = (val / 100 * 16) + "px";
+    const range = document.getElementById("font-size-range");
+    if (range) range.value = val;
+    document.getElementById("font-label").textContent = val + "%";
+  }
+
+  function setContrast(mode, btn) {
+    document.querySelectorAll(".theme-btn").forEach(b => {
+      b.classList.remove("active");
+      b.setAttribute("aria-pressed", "false");
+    });
+    btn.classList.add("active");
+    btn.setAttribute("aria-pressed", "true");
+    document.body.classList.remove("high-contrast", "dim-contrast");
+    if (mode === "high") document.body.classList.add("high-contrast");
+    if (mode === "dim") document.body.classList.add("dim-contrast");
+  }
+
+  function toggleMotion(cb) {
+    document.body.classList.toggle("reduce-motion", cb.checked);
+  }
+
+  function toggleFocus(cb) {
+    document.body.classList.toggle("focus-visible-on", cb.checked);
+  }
+
+  function salvarPreferencias() {
+    const prefs = {
+      fontSize: document.getElementById("font-size-range").value,
+      contrast: document.body.classList.contains("high-contrast") ? "high"
+               : document.body.classList.contains("dim-contrast") ? "dim" : "normal",
+      reduceMotion: document.getElementById("toggle-motion").checked,
+      focusVisible: document.getElementById("toggle-focus").checked
+    };
+    localStorage.setItem("a11y", JSON.stringify(prefs));
+    showToast("Preferências salvas com sucesso! ✅", "success", "✅");
+  }
+
+  function showToast(msg, type = "info", icon = "ℹ️") {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast-msg ${type}`;
+    toast.innerHTML = `<span class="toast-icon" aria-hidden="true">${icon}</span><span>${msg}</span>`;
+    toast.setAttribute("role", "alert");
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+</script>
+
+<style>
+  body.reduce-motion *, body.reduce-motion *::before, body.reduce-motion *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  body.focus-visible-on *:focus {
+    outline: 3px solid #9b5cff !important;
+    outline-offset: 3px !important;
+  }
+  body.dim-contrast { filter: brightness(0.75); }
+</style>
+
+</body>
+</html>

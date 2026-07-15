@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Art In Tech</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="auth-page">
+  <div class="auth-card">
+    <h2>Art In Tech 🎨</h2>
+    <p style="color:#a1a1aa;font-size:14px;">Entre na sua conta</p>
+
+    <input type="email" id="email" placeholder="Seu email">
+    <input type="password" id="senha" placeholder="Sua senha">
+
+    <button onclick="login()">Entrar</button>
+
+    <a href="cadastro.html">Não tem conta? <span>Cadastre-se</span></a>
+  </div>
+</div>
+
+<script>
+  async function login() {
+    const email = document.getElementById("email").value;
+    const senha = document.getElementById("senha").value;
+
+    if (!email || !senha) {
+      alert("Preencha todos os campos.");
+      return;
+    }
+
+    const res = await fetch("http://localhost:3000/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha })
+    });
+
+    const data = await res.json();
+
+    if (data.erro) {
+      alert(data.erro);
+      return;
+    }
+
+    localStorage.setItem("user", JSON.stringify(data));
+    window.location.href = "feed.html";
+  }
+</script>
+
+</body>
+</html>

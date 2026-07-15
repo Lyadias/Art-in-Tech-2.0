@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suporte - Art In Tech</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+<nav class="navbar" role="navigation" aria-label="Navegação principal">
+  <h1>Art In Tech 🎨</h1>
+  <div class="nav-buttons">
+    <button onclick="history.back()" aria-label="Voltar para a página anterior">← Voltar</button>
+  </div>
+</nav>
+
+<main id="main-content">
+  <div class="page-content">
+
+    <h2>🛟 Central de Suporte</h2>
+    <p class="subtitle">Encontre respostas rápidas ou entre em contato com nossa equipe.</p>
+
+    <!-- FAQ -->
+    <section aria-labelledby="faq-title">
+      <h3 id="faq-title" style="font-size:18px;font-weight:700;margin-bottom:20px;color:#c4b5fd;">Perguntas Frequentes</h3>
+      <div class="faq-list" role="list">
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Como criar minha conta?
+            <span class="icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            Clique em "Cadastrar" na home ou na tela de login. Preencha seu nome, e-mail e senha. Após o cadastro, você será redirecionado para o feed automaticamente.
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Como publicar no feed?
+            <span class="icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            Acesse o Feed, escreva sua descrição na caixa de criação e clique em "Publicar". Você pode descrever sua arte, processo criativo ou qualquer inspiração.
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Meus posts aparecem no meu perfil?
+            <span class="icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            Sim! Todos os posts que você publicar ficam salvos e aparecem automaticamente no seu perfil em formato de galeria. Acesse "👤 Perfil" no menu do feed.
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Esqueci minha senha. O que faço?
+            <span class="icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            No momento, entre em contato pelo formulário abaixo informando seu e-mail de cadastro. Nossa equipe irá te auxiliar o mais rápido possível.
+          </div>
+        </div>
+
+        <div class="faq-item" role="listitem">
+          <button class="faq-question" onclick="toggleFaq(this)" aria-expanded="false">
+            Como ajustar a acessibilidade do site?
+            <span class="icon" aria-hidden="true">+</span>
+          </button>
+          <div class="faq-answer" role="region">
+            Acesse a página de <a href="acessibilidade.html" style="color:#9b5cff;">Acessibilidade</a> para configurar tamanho de fonte, alto contraste, redução de movimento e navegação por teclado.
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FORMULÁRIO DE CONTATO -->
+    <section aria-labelledby="contact-title">
+      <div class="contact-form">
+        <h3 id="contact-title">✉️ Fale com a gente</h3>
+        <p style="color:#a1a1aa;font-size:14px;margin-top:-8px;">Respondemos em até 24h nos dias úteis.</p>
+
+        <label for="contact-name" class="sr-only">Seu nome</label>
+        <input type="text" id="contact-name" placeholder="Seu nome" aria-label="Seu nome">
+
+        <label for="contact-email" class="sr-only">Seu e-mail</label>
+        <input type="email" id="contact-email" placeholder="Seu e-mail" aria-label="Seu e-mail">
+
+        <label for="contact-type" class="sr-only">Tipo de solicitação</label>
+        <select id="contact-type" aria-label="Tipo de solicitação">
+          <option value="" disabled selected>Selecione o assunto</option>
+          <option>Problema técnico</option>
+          <option>Dúvida sobre conta</option>
+          <option>Reportar conteúdo</option>
+          <option>Sugestão de melhoria</option>
+          <option>Outro</option>
+        </select>
+
+        <label for="contact-msg" class="sr-only">Sua mensagem</label>
+        <textarea id="contact-msg" placeholder="Descreva sua dúvida ou problema..." aria-label="Sua mensagem"></textarea>
+
+        <button onclick="enviarSuporte()" aria-label="Enviar mensagem de suporte">Enviar mensagem</button>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="home-footer" role="contentinfo">
+  <p>© 2025 Art In Tech · <a href="index.html">Home</a> · <a href="acessibilidade.html">Acessibilidade</a></p>
+</footer>
+
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+  function toggleFaq(btn) {
+    const item = btn.closest(".faq-item");
+    const isOpen = item.classList.contains("open");
+    document.querySelectorAll(".faq-item").forEach(i => {
+      i.classList.remove("open");
+      i.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+    });
+    if (!isOpen) {
+      item.classList.add("open");
+      btn.setAttribute("aria-expanded", "true");
+    }
+  }
+
+  function enviarSuporte() {
+    const nome = document.getElementById("contact-name").value;
+    const email = document.getElementById("contact-email").value;
+    const tipo = document.getElementById("contact-type").value;
+    const msg = document.getElementById("contact-msg").value;
+
+    if (!nome || !email || !tipo || !msg) {
+      showToast("Preencha todos os campos.", "error", "⚠️");
+      return;
+    }
+
+    showToast("Mensagem enviada! Responderemos em breve. ✉️", "success", "✅");
+    document.getElementById("contact-name").value = "";
+    document.getElementById("contact-email").value = "";
+    document.getElementById("contact-type").selectedIndex = 0;
+    document.getElementById("contact-msg").value = "";
+  }
+
+  function showToast(msg, type = "info", icon = "ℹ️") {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast-msg ${type}`;
+    toast.innerHTML = `<span class="toast-icon" aria-hidden="true">${icon}</span><span>${msg}</span>`;
+    toast.setAttribute("role", "alert");
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+</script>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px; height: 1px;
+    padding: 0; margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+</body>
+</html>

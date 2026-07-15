@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro - Art In Tech</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+<div class="auth-page" id="main-content">
+  <div class="auth-card">
+    <h2>Criar Conta 🎨</h2>
+    <p style="color:#a1a1aa;font-size:14px;margin-top:-8px;">Junte-se à comunidade criativa</p>
+
+    <label for="nome" class="sr-only">Seu nome</label>
+    <input type="text" id="nome" placeholder="Seu nome" autocomplete="name" aria-label="Seu nome">
+
+    <label for="email" class="sr-only">Seu e-mail</label>
+    <input type="email" id="email" placeholder="Seu e-mail" autocomplete="email" aria-label="Seu e-mail">
+
+    <label for="senha" class="sr-only">Sua senha</label>
+    <input type="password" id="senha" placeholder="Sua senha" autocomplete="new-password" aria-label="Sua senha">
+
+    <button onclick="cadastrar()" aria-label="Criar conta">Criar Conta</button>
+
+    <a href="login.html">Já tem conta? <span>Entrar</span></a>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+  async function cadastrar() {
+    const nome = document.getElementById("nome").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const senha = document.getElementById("senha").value;
+
+    if (!nome || !email || !senha) {
+      showToast("Preencha todos os campos.", "error", "⚠️");
+      return;
+    }
+
+    if (senha.length < 6) {
+      showToast("A senha deve ter pelo menos 6 caracteres.", "error", "⚠️");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:3000/cadastro", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, email, senha })
+      });
+
+      const data = await res.json();
+
+      if (data.erro) {
+        showToast(data.erro, "error", "❌");
+        return;
+      }
+
+      showToast("Conta criada com sucesso! Bem-vindo(a) 🎉", "success", "✅");
+
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 2000);
+
+    } catch (err) {
+      showToast("Erro ao conectar com o servidor.", "error", "❌");
+    }
+  }
+
+  function showToast(msg, type = "info", icon = "ℹ️") {
+    const container = document.getElementById("toastContainer");
+    const toast = document.createElement("div");
+    toast.className = `toast-msg ${type}`;
+    toast.innerHTML = `<span class="toast-icon" aria-hidden="true">${icon}</span><span>${msg}</span>`;
+    toast.setAttribute("role", "alert");
+    container.appendChild(toast);
+    setTimeout(() => toast.remove(), 4000);
+  }
+</script>
+
+<style>
+  .sr-only {
+    position: absolute; width:1px; height:1px;
+    padding:0; margin:-1px; overflow:hidden;
+    clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  }
+</style>
+
+</body>
+</html>

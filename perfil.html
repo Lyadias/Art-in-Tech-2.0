@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Art In Tech</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+<nav class="navbar" role="navigation" aria-label="Navegação principal">
+  <h1>Art In Tech 🎨</h1>
+  <div class="nav-buttons">
+    <button onclick="window.location.href='feed.html'" aria-label="Voltar ao feed">← Feed</button>
+    <button onclick="logout()" aria-label="Sair da conta">Sair</button>
+  </div>
+</nav>
+
+<main id="main-content">
+  <div class="profile-page">
+
+    <div class="profile-banner" role="img" aria-label="Banner do perfil"></div>
+
+   <div class="profile-info">
+
+    <img
+        id="profile-avatar"
+        class="profile-avatar"
+        src="https://i.pravatar.cc/200"
+        alt="Foto de Perfil">
+
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*"
+        style="display:none;">
+
+    <button
+        class="edit-btn"
+        onclick="document.getElementById('photoInput').click()">
+        📷 Alterar foto
+    </button>
+
+    <h1 id="profile-name"></h1>
+
+    <p id="profile-user"></p>
+
+    <div class="profile-stats">
+
+        <div>
+            <strong id="stat-posts">0</strong>
+            <span>Posts</span>
+        </div>
+
+        <div>
+            <strong>4.5k</strong>
+            <span>Seguidores</span>
+        </div>
+
+        <div>
+            <strong>327</strong>
+            <span>Seguindo</span>
+        </div>
+
+    </div>
+
+    <button
+        class="edit-btn"
+        onclick="abrirConfiguracoes()">
+        ✏️ Editar Perfil
+    </button>
+
+</div>
+
+    <!-- POSTS DO USUÁRIO -->
+    <div style="max-width:1200px;margin:40px auto 0;padding:0 20px;">
+      <h2 style="font-size:18px;font-weight:700;margin-bottom:20px;color:#c4b5fd;" id="posts-section-title">
+        Minhas publicações
+      </h2>
+      <div id="empty-state" style="display:none;text-align:center;padding:60px 20px;color:#a1a1aa;">
+        <div style="font-size:48px;margin-bottom:16px;">🎨</div>
+        <p style="font-size:16px;font-weight:600;margin-bottom:8px;">Nenhuma publicação ainda</p>
+        <p style="font-size:14px;">Vá para o feed e compartilhe sua primeira criação!</p>
+        <button onclick="window.location.href='feed.html'"
+          style="margin-top:20px;background:linear-gradient(to right,#7c3aed,#4f46e5);border:none;padding:12px 24px;border-radius:12px;color:white;font-family:'Sora',sans-serif;font-weight:700;cursor:pointer;"
+          aria-label="Ir para o feed e criar primeiro post">
+          Publicar agora →
+        </button>
+      </div>
+    </div>
+
+    <div class="profile-posts" id="profile-posts" aria-label="Grade de publicações do usuário"></div>
+
+  </div>
+</main>
+
+<div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+
+<div id="configModal"
+style="display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.75);
+align-items:center;
+justify-content:center;
+z-index:999;">
+
+<div style="
+background:#1f2937;
+padding:25px;
+border-radius:20px;
+width:90%;
+max-width:420px;
+color:white;">
+
+<h2 style="margin-bottom:20px;">
+Editar Perfil
+</h2>
+
+<input
+id="novoNome"
+placeholder="Nome de Perfil"
+style="width:100%;padding:12px;margin-bottom:12px;">
+
+<input
+id="novoUsuario"
+placeholder="@usuario"
+style="width:100%;padding:12px;margin-bottom:12px;">
+
+<input
+id="novoEmail"
+placeholder="Novo e-mail"
+style="width:100%;padding:12px;margin-bottom:12px;">
+
+<input
+id="novaSenha"
+type="password"
+placeholder="Nova senha"
+style="width:100%;padding:12px;margin-bottom:20px;">
+
+<div style="display:flex;gap:10px;">
+
+<button
+class="edit-btn"
+onclick="salvarConfiguracoes()">
+Salvar
+</button>
+
+<button
+class="edit-btn"
+onclick="fecharConfiguracoes()">
+Cancelar
+</button>
+
+</div>
+
+</div>
+
+</div>
+// =========================
+// PERFIL DO USUÁRIO
+// =========================
+<script>
+const user = JSON.parse(localStorage.getItem("user"));
+
+if (!user) {
+    window.location.href = "login.html";
+}
+
+// Avatar
+const avatar = document.getElementById("profile-avatar");
+
+// Nome
+if (!user.nome) {
+    user.nome = "Usuário";
+}
+
+// @Usuário
+if (!user.usuario) {
+    user.usuario = user.nome
+        .toLowerCase()
+        .replace(/\s/g, "");
+}
+
+// Mostrar dados
+document.getElementById("profile-name").innerText = user.nome;
+document.getElementById("profile-user").innerText = "@" + user.usuario;
+
+// Avatar padrão
+avatar.src = `https://i.pravatar.cc/200?u=${user.id}`;
+avatar.alt = `Foto de perfil de ${user.nome}`;
+
+// Carregar foto salva
+const savedPhoto = localStorage.getItem("profilePhoto_" + user.id);
+
+if (savedPhoto) {
+    avatar.src = savedPhoto;
+}
+
+// Upload da foto
+document.getElementById("photoInput").addEventListener("change", function (e) {
+
+    const file = e.target.files[0];
+
+    if (!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function (ev) {
+
+        avatar.src = ev.target.result;
+
+        localStorage.setItem(
+            "profilePhoto_" + user.id,
+            ev.target.result
+        );
+
+        showToast("Foto atualizada!", "success", "📷");
+
+    };
+
+    reader.readAsDataURL(file);
+
+});
+
+// =========================
+// CONFIGURAÇÕES
+// =========================
+
+function abrirConfiguracoes() {
+
+    document.getElementById("novoNome").value =
+        user.nome || "";
+
+    document.getElementById("novoUsuario").value =
+        user.usuario || "";
+
+    document.getElementById("novoEmail").value =
+        user.email || "";
+
+    document.getElementById("configModal").style.display =
+        "flex";
+
+}
+
+function fecharConfiguracoes() {
+
+    document.getElementById("configModal").style.display =
+        "none";
+
+}
+
+function salvarConfiguracoes() {
+
+    const nome = document
+        .getElementById("novoNome")
+        .value
+        .trim();
+
+    const usuario = document
+        .getElementById("novoUsuario")
+        .value
+        .trim()
+        .replace("@", "")
+        .replace(/\s/g, "");
+
+    const email = document
+        .getElementById("novoEmail")
+        .value
+        .trim();
+
+    const senha = document
+        .getElementById("novaSenha")
+        .value;
+
+    if (nome) {
+        user.nome = nome;
+    }
+
+    if (usuario) {
+        user.usuario = usuario;
+    }
+
+    if (email) {
+        user.email = email;
+    }
+
+    if (senha) {
+        user.senha = senha;
+    }
+
+    localStorage.setItem(
+        "user",
+        JSON.stringify(user)
+    );
+
+    document.getElementById("profile-name").innerText =
+        user.nome;
+
+    document.getElementById("profile-user").innerText =
+        "@" + user.usuario;
+
+    showToast(
+        "Perfil atualizado com sucesso!",
+        "success",
+        "✅"
+    );
+
+    fecharConfiguracoes();
+
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,395 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Sora", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #0f0f1a;
+  color: white;
+  overflow-x: hidden;
+}
+
+/* ─── NAVBAR ─────────────────────────────────── */
+
+.navbar {
+  width: 100%;
+  height: 70px;
+  background: #161625;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar h1 {
+  color: #9b5cff;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-buttons button {
+  background: #7c3aed;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-family: "Sora", sans-serif;
+  transition: opacity .2s;
+}
+
+.nav-buttons button:hover {
+  opacity: 0.85;
+}
+
+/* ─── FEED LAYOUT ────────────────────────────── */
+
+.feed-layout {
+  display: flex;
+  max-width: 1300px;
+  margin: auto;
+  padding: 20px;
+  gap: 25px;
+}
+
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.sidebar-profile-card {
+  background: #1a1a2e;
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+}
+
+.sidebar-profile-card img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 15px;
+}
+
+.sidebar-profile-card p {
+  color: #a1a1aa;
+  margin-top: 5px;
+  font-size: 14px;
+}
+
+.feed {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── CREATE POST ────────────────────────────── */
+
+.create-post {
+  background: #1a1a2e;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 25px;
+}
+
+.create-post textarea {
+  width: 100%;
+  min-height: 120px;
+  border: none;
+  resize: none;
+  padding: 15px;
+  border-radius: 15px;
+  background: #0f0f1a;
+  color: white;
+  margin-bottom: 15px;
+  font-family: "Sora", sans-serif;
+  font-size: 14px;
+  outline: none;
+}
+
+.create-post button {
+  background: #7c3aed;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  transition: opacity .2s;
+}
+
+.create-post button:hover {
+  opacity: 0.85;
+}
+
+/* ─── POST CARD ──────────────────────────────── */
+
+.post {
+  background: #1a1a2e;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+}
+
+.post-header img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.post-header h3 {
+  font-size: 15px;
+  margin-bottom: 2px;
+}
+
+.post-header small {
+  color: #a1a1aa;
+  font-size: 12px;
+}
+
+.post-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  display: block;
+}
+
+.post-content {
+  padding: 15px;
+}
+
+.post-content p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #e2e8f0;
+}
+
+.actions {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.actions button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 15px;
+  font-family: "Sora", sans-serif;
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background .2s;
+}
+
+.actions button:hover {
+  background: rgba(124, 58, 237, .15);
+}
+
+/* ─── PERFIL PAGE ────────────────────────────── */
+
+.profile-page {
+  max-width: 1200px;
+  margin: auto;
+  padding-bottom: 40px;
+}
+
+.profile-banner {
+  width: 100%;
+  height: 250px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  border-radius: 0 0 30px 30px;
+}
+
+.profile-info {
+  text-align: center;
+  margin-top: -70px;
+}
+
+.profile-avatar {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 5px solid #0f0f1a;
+}
+
+.profile-info h1 {
+  margin-top: 15px;
+  font-size: 32px;
+}
+
+.profile-info p {
+  color: #a1a1aa;
+  margin-top: 5px;
+}
+
+.profile-stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-top: 25px;
+}
+
+.profile-stats div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-stats strong {
+  font-size: 20px;
+}
+
+.profile-stats span {
+  color: #a1a1aa;
+  font-size: 13px;
+  margin-top: 3px;
+}
+
+.edit-btn {
+  margin-top: 25px;
+  background: #7c3aed;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 12px;
+  color: white;
+  cursor: pointer;
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  transition: opacity .2s;
+}
+
+.edit-btn:hover {
+  opacity: 0.85;
+}
+
+.profile-posts {
+  margin-top: 50px;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.profile-post-card {
+  background: #1a1a2e;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.profile-post-card img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+/* ─── LOGIN / CADASTRO ───────────────────────── */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.auth-card {
+  background: #1a1a2e;
+  border-radius: 24px;
+  padding: 40px;
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.auth-card h2 {
+  font-size: 26px;
+  margin-bottom: 8px;
+  color: #9b5cff;
+}
+
+.auth-card input {
+  width: 100%;
+  background: #0f0f1a;
+  border: 1px solid rgba(124, 58, 237, .3);
+  border-radius: 14px;
+  padding: 14px;
+  color: white;
+  outline: none;
+  font-family: "Sora", sans-serif;
+  font-size: 14px;
+}
+
+.auth-card input:focus {
+  border-color: #7c3aed;
+}
+
+.auth-card button {
+  background: linear-gradient(to right, #7c3aed, #4f46e5);
+  border: none;
+  padding: 14px;
+  border-radius: 14px;
+  color: white;
+  cursor: pointer;
+  font-family: "Sora", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  transition: opacity .2s;
+}
+
+.auth-card button:hover {
+  opacity: 0.9;
+}
+
+.auth-card a {
+  color: #a1a1aa;
+  font-size: 13px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.auth-card a span {
+  color: #9b5cff;
+}
+
+/* ─── RESPONSIVO ─────────────────────────────── */
+
+@media (max-width: 768px) {
+  .feed-layout {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .profile-stats {
+    gap: 20px;
+  }
+
+  .profile-banner {
+    height: 160px;
+  }
+}

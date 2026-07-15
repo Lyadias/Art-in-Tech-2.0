@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art In Tech — Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+</head>
+<body>
+
+<!-- SKIP TO CONTENT (acessibilidade) -->
+<a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation" aria-label="Navegação principal">
+  <h1>Art In Tech 🎨</h1>
+  <div class="nav-buttons">
+    <button onclick="window.location.href='login.html'" aria-label="Entrar na sua conta">Entrar</button>
+    <button onclick="window.location.href='cadastro.html'" class="btn-destaque" aria-label="Criar nova conta">Cadastrar</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<main id="main-content">
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-content">
+      <span class="hero-badge">🎨 A comunidade criativa</span>
+      <h2 id="hero-title">Onde <span class="grad">Arte</span> encontra <span class="grad">Tecnologia</span></h2>
+      <p>Publique suas criações, conecte-se com artistas e explore um feed cheio de inspiração. Tudo em um só lugar.</p>
+      <div class="hero-actions">
+        <button onclick="window.location.href='cadastro.html'" class="btn-hero-primary" aria-label="Criar conta gratuita">Começar agora →</button>
+        <button onclick="window.location.href='login.html'" class="btn-hero-ghost" aria-label="Entrar com conta existente">Já tenho conta</button>
+      </div>
+    </div>
+    <div class="hero-cards" aria-hidden="true">
+      <div class="floating-card c1">
+        <img src="https://picsum.photos/300/200?random=10" alt="">
+        <p>✨ Arte digital</p>
+      </div>
+      <div class="floating-card c2">
+        <img src="https://picsum.photos/300/200?random=20" alt="">
+        <p>🖌️ Pixel art</p>
+      </div>
+      <div class="floating-card c3">
+        <img src="https://picsum.photos/300/200?random=30" alt="">
+        <p>🤖 Tech & design</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVIÇOS -->
+  <section class="services" aria-labelledby="services-title">
+    <h3 id="services-title">O que você pode fazer aqui</h3>
+    <div class="services-grid">
+      <article class="service-card" tabindex="0" onclick="window.location.href='feed.html'" aria-label="Ir para o Feed">
+        <div class="service-icon" aria-hidden="true">🖼️</div>
+        <h4>Feed Criativo</h4>
+        <p>Explore publicações de artistas de todo o Brasil. Curta, comente e se inspire.</p>
+        <span class="service-link">Acessar →</span>
+      </article>
+
+      <article class="service-card" tabindex="0" onclick="window.location.href='cadastro.html'" aria-label="Criar uma conta">
+        <div class="service-icon" aria-hidden="true">🧑‍🎨</div>
+        <h4>Seu Perfil</h4>
+        <p>Crie sua conta, monte seu portfólio e mostre seu trabalho para a comunidade.</p>
+        <span class="service-link">Criar conta →</span>
+      </article>
+
+      <article class="service-card" tabindex="0" onclick="window.location.href='suporte.html'" aria-label="Central de suporte">
+        <div class="service-icon" aria-hidden="true">🛟</div>
+        <h4>Suporte</h4>
+        <p>Dúvidas, problemas ou sugestões? Nossa central de ajuda está sempre disponível.</p>
+        <span class="service-link">Acessar →</span>
+      </article>
+
+      <article class="service-card" tabindex="0" onclick="window.location.href='acessibilidade.html'" aria-label="Configurações de acessibilidade">
+        <div class="service-icon" aria-hidden="true">♿</div>
+        <h4>Acessibilidade</h4>
+        <p>Personalize sua experiência com opções de fonte, contraste e navegação por teclado.</p>
+        <span class="service-link">Configurar →</span>
+      </article>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section class="stats" aria-label="Estatísticas da plataforma">
+    <div class="stat-item">
+      <strong>12k+</strong>
+      <span>Artistas</span>
+    </div>
+    <div class="stat-divider" aria-hidden="true"></div>
+    <div class="stat-item">
+      <strong>48k+</strong>
+      <span>Publicações</span>
+    </div>
+    <div class="stat-divider" aria-hidden="true"></div>
+    <div class="stat-item">
+      <strong>200+</strong>
+      <span>Estilos</span>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="home-footer" role="contentinfo">
+  <p>© 2025 Art In Tech · <a href="suporte.html">Suporte</a> · <a href="acessibilidade.html">Acessibilidade</a></p>
+</footer>
+
+</body>
+</html>
